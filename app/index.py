@@ -7,7 +7,7 @@ def run(input_series,
 		output_series, 
 		max_input_length=118,
 		max_output_length=28,
-		number_of_words=50000,
+		number_of_words=10000,
 		test_size=.05, 
 		validation_size=.2):
 	'''
