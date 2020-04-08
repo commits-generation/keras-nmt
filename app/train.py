@@ -17,6 +17,7 @@ def run(input_series,
 	Arguments:
 		- number_of_words: Vocabulary size
 	'''
+  print(input_series.shape)
 	# Split the dataset to train and test
 	x_train, x_test, y_train, y_test = train_test_split(
 		input_series, 
@@ -31,7 +32,7 @@ def run(input_series,
 											max_length=max_output_length)
 	x_train_preprocessed = preprocess_input(x_train)
 	y_train_preprocessed = preprocess_input(x_train)
-
+  print(x_train_preprocessed, y_train_preprocessed)
 
 	# Create NMT model
 	train, predict = create_nmt_model(num_words=number_of_words)
@@ -41,11 +42,11 @@ def run(input_series,
 	decoder_input_data= y_train_preprocessed[:number_of_rows, :-1]
 	decoder_output_data= y_train_preprocessed[:number_of_rows, 1:]
 
+  print(encoder_input_data,decoder_output_data )
 	train(encoder_input_data=encoder_input_data,
 			decoder_input_data=decoder_input_data,
 			decoder_output_data=decoder_output_data,
-			epochs=epochs,
-			verbose=1)
+			epochs=epochs)
 	
 
 	

@@ -98,15 +98,14 @@ def create_nmt_model(num_words):
 				decoder_input_data,
 				decoder_output_data,
 				epochs=10,
-				validation_split=0.3,
-				**kwargs):
+				validation_split=0.3):
 		return model_train.fit(x={"encoder_input":encoder_input_data, "decoder_input": decoder_input_data},
 					y={"decoder_dense": decoder_output_data},
 					batch_size=512,
 					epochs=epochs,
 					validation_split=validation_split,
 					callbacks=callbacks,
-					**kwargs)
+          verbose=1)
 
 	# Create the encoder
 	model_encoder = Model(inputs=[encoder_input],
