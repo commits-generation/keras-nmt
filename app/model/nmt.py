@@ -1,7 +1,11 @@
 from tensorflow.keras.layers import Embedding, Input, GRU, Dense
+from tensorflow.keras import Model
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import SparseCategoricalCrossentropy
+import tensorflow as tf
 from .callbacks import create_callbacks
 
-def create_nmt_model():
+def create_nmt_model(num_words):
 	# Encoder
 	# Input layer
 	encoder_input = Input(shape=(None,), name="encoder_input")
@@ -68,10 +72,10 @@ def create_nmt_model():
 	model_train = Model(inputs=[encoder_input, decoder_input], outputs=[decoder_output])
 
 	# Optimizer
-	optimizer = tf.keras.optimizers.Adam(learning_rate=0.003)
+	optimizer = Adam(learning_rate=0.003)
 
 	# Loss function
-	loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True,
+	loss_object = SparseCategoricalCrossentropy(from_logits=True,
                                                             reduction='none')
 	def loss_function(real, pred):
 		mask = tf.math.logical_not(tf.math.equal(real, 0))
@@ -88,7 +92,7 @@ def create_nmt_model():
 	callbacks = create_callbacks()
 
 	def train(encoder_input_data,
-				decoder_input,
+				decoder_input_data,
 				decoder_output_data,
 				epochs=10,
 				validation_split=0.3):
@@ -107,7 +111,7 @@ def create_nmt_model():
 	model_decoder = Model(inputs=[decoder_input, decoder_initial_state],
 						outputs=[decoder_output])
 
-	def predict(texts)
+	def predict(texts):
 		input_tokens = preprocess_input(texts)
 		decoder_initial_state_data = model_encoder.predict(input_tokens)
 

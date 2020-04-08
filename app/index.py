@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 from app.preprocess import create_preprocessor
 import numpy as np
+from app.model.nmt import create_nmt_model
 
 def run(input_series, 
 		output_series, 
@@ -27,9 +28,22 @@ def run(input_series,
 	preprocess_output, _ = create_preprocessor(num_words=number_of_words,
 											texts=y_train,
 											max_length=max_output_length)
+	x_train_preprocessed = preprocess_input(x_train)
+	y_train_preprocessed = preprocess_input(x_train)
+
 
 	# Create NMT model
-	train, predict = create_nmt_model()
+	train, predict = create_nmt_model(num_words=number_of_words)
+
+	encoder_input_data= x_train_preprocessed[:]
+	decoder_input_data= y_train_preprocessed[:, :-1]
+	decoder_output_data= y_train_preprocessed[:, 1:]
+
+	train(encoder_input_data=encoder_input_data,
+			decoder_input_data=decoder_input_data,
+			decoder_output_data=decoder_output_data,
+			epochs=1,)
+		
 
 	
 	

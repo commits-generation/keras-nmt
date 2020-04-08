@@ -1,5 +1,6 @@
 from .tokenizer import create_tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+import numpy as np
 
 def create_preprocessor(num_words, texts, max_length):
 	# Create tokenizer
