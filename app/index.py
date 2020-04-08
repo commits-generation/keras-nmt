@@ -35,14 +35,15 @@ def run(input_series,
 	# Create NMT model
 	train, predict = create_nmt_model(num_words=number_of_words)
 
-	encoder_input_data= x_train_preprocessed[:]
-	decoder_input_data= y_train_preprocessed[:, :-1]
-	decoder_output_data= y_train_preprocessed[:, 1:]
+	number_of_rows= 500
+	encoder_input_data= x_train_preprocessed[:500]
+	decoder_input_data= y_train_preprocessed[:500, :-1]
+	decoder_output_data= y_train_preprocessed[:500, 1:]
 
 	train(encoder_input_data=encoder_input_data,
 			decoder_input_data=decoder_input_data,
 			decoder_output_data=decoder_output_data,
-			epochs=1,)
+			epochs=3,)
 	
 
 	
