@@ -43,7 +43,7 @@ def run(input_series,
 			decoder_input_data=decoder_input_data,
 			decoder_output_data=decoder_output_data,
 			epochs=1,)
-		
+	
 
 	
 	
