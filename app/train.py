@@ -2,9 +2,7 @@ from sklearn.model_selection import train_test_split
 from app.preprocess import create_preprocessor
 import numpy as np
 from app.model.nmt import create_nmt_model
-from tensorflow import function
 
-@function
 def run(input_series, 
 		output_series, 
 		max_input_length=118,
@@ -46,7 +44,8 @@ def run(input_series,
 	train(encoder_input_data=encoder_input_data,
 			decoder_input_data=decoder_input_data,
 			decoder_output_data=decoder_output_data,
-			epochs=epochs,)
+			epochs=epochs,
+			verbose=1)
 	
 
 	

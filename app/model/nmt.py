@@ -4,6 +4,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import SparseCategoricalCrossentropy
 import tensorflow as tf
 from .callbacks import create_callbacks
+from tensorflow import function
 
 def create_nmt_model(num_words):
 	# Encoder
@@ -91,17 +92,21 @@ def create_nmt_model(num_words):
 
 	callbacks = create_callbacks()
 
+
+	@function
 	def train(encoder_input_data,
 				decoder_input_data,
 				decoder_output_data,
 				epochs=10,
-				validation_split=0.3):
-		history = model_train.fit(x={"encoder_input":encoder_input_data, "decoder_input": decoder_input_data},
+				validation_split=0.3,
+				**kwargs):
+		return model_train.fit(x={"encoder_input":encoder_input_data, "decoder_input": decoder_input_data},
 					y={"decoder_dense": decoder_output_data},
 					batch_size=512,
 					epochs=epochs,
 					validation_split=validation_split,
-					callbacks=callbacks)
+					callbacks=callbacks,
+					**kwargs)
 
 	# Create the encoder
 	model_encoder = Model(inputs=[encoder_input],
