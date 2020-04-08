@@ -1,4 +1,5 @@
 from .tokenizer import create_tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 def create_preprocessor(num_words, texts, max_length):
 	# Create tokenizer
@@ -8,4 +9,10 @@ def create_preprocessor(num_words, texts, max_length):
 	
 	def preprocess(series):
 		tokenized_texts = tokenize(texts)
-		padded_texts = pad_sequences()
+		padded_texts = pad_sequences(tokenized_texts, 
+									maxlen=max_length,
+									padding="post",
+									truncating="pre")
+		return padded_texts
+
+	return preprocess, _tokenizer

@@ -1,11 +1,11 @@
 from sklearn.model_selection import train_test_split
-from app.preprocess.tokenizer import create_tokenizer
+from app.preprocess import create_preprocessor
 import numpy as np
 
 def run(input_series, 
 		output_series, 
 		max_input_length=118,
-		max_input_length=28,
+		max_output_length=28,
 		number_of_words=50000,
 		test_size=.05, 
 		validation_size=.2):
@@ -20,17 +20,16 @@ def run(input_series,
 		input_series, 
 		output_series.apply(lambda x: "ssss "+x+" eeee"), test_size=test_size)
 
-	# Create tokenizer for the input and the output
-	input_tokenize, input_reverse_tokenize, _input_tokenizer = create_tokenizer(
-		num_words=number_of_words,
-		texts=np.array(x_train))
-	output_tokenize, output_reverse_tokenize, _output_tokenizer = create_tokenizer(
-		num_words=number_of_words,
-		texts=y_train)
+	# Create the preprocessors for the input and the output
+	preprocess_input, _ = create_preprocessor(num_words=number_of_words,
+											texts=x_train,
+											max_length=max_input_length)
+	preprocess_output, _ = create_preprocessor(num_words=number_of_words,
+											texts=y_train,
+											max_length=max_output_length)
 
-	# Tokenize the input and the output
-	x_tokens = input_tokenize(x_train)
-	y_tokens = output_tokenize(y_train)
+	# Create NMT model
+	train, predict = create_nmt_model()
 
 	
 	
